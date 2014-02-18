@@ -2,7 +2,13 @@
   <span class="logo"/>
   <h3>{{setting "name"}}</h3>
 </header>
-<section data-main/>
+<ul class="nav nav-pills">
+  <li class="account"><a>{{t "layout.account"}}</a></li>
+  <li class="user"><a>{{t "layout.user"}}</a></li>
+  <li class="ticket"><a>{{t "layout.ticket"}}</a></li>
+</ul>
+
+<section data-main />
 <footer>
   <a href="mailto:{{author.email}}">
     {{author.name}}

@@ -1,0 +1,9 @@
+<ul>
+  {{#each transactions}}
+    <li style='margin-bottom:20px'>
+      Date: {{ this.TIMESTAMP }} <br />
+      Txn Id: {{ this.TRANSACTIONID }} <br />
+      {{ this.TYPE }}: {{ this.CURRENCYCODE }}{{ this.AMT }}
+    </li>
+  {{/each}}
+</ul>

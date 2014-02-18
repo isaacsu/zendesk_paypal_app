@@ -50,5 +50,24 @@
   "groups": {
     "value": "Groups",
     "title": "user groups"
+  },
+
+  "layout": {
+    "subheading": {
+      "value": "This app demos some APIs allowing developers to interact with tickets in a Zendesk",
+      "title": "incident"
+    },
+    "user": {
+      "value": "User",
+      "title": "incident"
+    },
+    "ticket": {
+      "value": "Ticket",
+      "title": "incident"
+    },
+    "account": {
+      "value": "Current Account",
+      "title": "incident"
+    }
   }
 }
