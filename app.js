@@ -5,12 +5,6 @@
     listing: {},
     detail: {}
   };
-
-  var mockListing = "L_TIMESTAMP0=2014%2d02%2d18T04%3a07%3a20Z&L_TIMESTAMP1=2014%2d02%2d18T04%3a02%3a47Z&L_TIMESTAMP2=2014%2d02%2d18T04%3a02%3a08Z&L_TIMEZONE0=GMT&L_TIMEZONE1=GMT&L_TIMEZONE2=GMT&L_TYPE0=Refund&L_TYPE1=Payment&L_TYPE2=Payment&L_EMAIL0=zd%2dpersonal2%40isaacsu%2ecom&L_EMAIL1=zd%2dpersonal2%40isaacsu%2ecom&L_EMAIL2=zd%2dpersonal2%40isaacsu%2ecom&L_NAME0=Dao%20Chuan%20Isaac%20Su&L_NAME1=Dao%20Chuan%20Isaac%20Su&L_NAME2=Dao%20Chuan%20Isaac%20Su&L_TRANSACTIONID0=8K520326T2098332F&L_TRANSACTIONID1=1HE88866CX024940H&L_TRANSACTIONID2=7YP30818S6372374T&L_STATUS0=Completed&L_STATUS1=Partially%20Refunded&L_STATUS2=Completed&L_AMT0=%2d29%2e00&L_AMT1=229%2e00&L_AMT2=33%2e00&L_CURRENCYCODE0=USD&L_CURRENCYCODE1=USD&L_CURRENCYCODE2=USD&L_FEEAMT0=0%2e99&L_FEEAMT1=%2d8%2e09&L_FEEAMT2=%2d1%2e42&L_NETAMT0=%2d28%2e01&L_NETAMT1=220%2e91&L_NETAMT2=31%2e58&TIMESTAMP=2014%2d02%2d18T04%3a08%3a02Z&CORRELATIONID=233f1ea317d34&ACK=Success&VERSION=100&BUILD=9720069&";
-
-  var mockDetail = "RECEIVERBUSINESS=zd%2dbusiness%40isaacsu%2ecom&RECEIVEREMAIL=zd%2dbusiness%40isaacsu%2ecom&RECEIVERID=CPZYNZZCY2RJJ&EMAIL=zd%2dpersonal2%40isaacsu%2ecom&PAYERID=WDHVHRWSMF6ZA&PAYERSTATUS=verified&COUNTRYCODE=US&SHIPTONAME=Dao%20Chuan%20Isaac%20Su&SHIPTOSTREET=1%20Main%20St&SHIPTOCITY=San%20Jose&SHIPTOSTATE=CA&SHIPTOCOUNTRYCODE=US&SHIPTOCOUNTRYNAME=United%20States&SHIPTOZIP=95131&ADDRESSOWNER=PayPal&ADDRESSSTATUS=Confirmed&TIMESTAMP=2014%2d02%2d20T00%3a18%3a44Z&CORRELATIONID=9dabe963aa77&ACK=Success&VERSION=100&BUILD=9720069&FIRSTNAME=Dao%20Chuan%20Isaac&LASTNAME=Su&TRANSACTIONID=1HE88866CX024940H&TRANSACTIONTYPE=sendmoney&PAYMENTTYPE=instant&ORDERTIME=2014%2d02%2d18T04%3a02%3a46Z&AMT=229%2e00&FEEAMT=8%2e09&CURRENCYCODE=USD&PAYMENTSTATUS=PartiallyRefunded&PENDINGREASON=None&REASONCODE=None&PROTECTIONELIGIBILITY=Ineligible&PROTECTIONELIGIBILITYTYPE=None&L_CURRENCYCODE0=USD&L_TAXABLE0=false";
-
-  var mockNoResults = "TIMESTAMP=2014%2d02%2d24T00%3a15%3a42Z&CORRELATIONID=e0335ae52a67e&ACK=Failure&VERSION=100&BUILD=9720069&L_ERRORCODE0=10360&L_SHORTMESSAGE0=Transaction%20refused%20because%20of%20an%20invalid%20argument%2e%20See%20additional%20error%20messages%20for%20details%2e&L_LONGMESSAGE0=We%20didn%27t%20find%20any%20transactions%20associated%20with%20this%20email%20address%2e&L_SEVERITYCODE0=Error";
   
   return {
     
@@ -162,68 +156,6 @@
     renderDetail: function(transaction) {
       this.switchTo('transaction_show', transaction);
     },
-
-
-    parseListing: function(str) {
-      var transactions = str.split('&');
-      
-      return _.chain(transactions)
-      
-              // only work with "L_*" parameters
-              .filter(function(el) { return el.substr(0,2) === "L_"; })
-
-              // transform "TYPE0=REFUND" into arr['TYPE0'] = "REFUND"
-              .reduce(function(res, el) {
-                var keyValue = el.split('=');
-                res[keyValue[0].substr(2)] = keyValue[1];
-                return res;
-              }, {})
-
-              // transform arr['TYPE0'] = "REFUND" into arr[0]['TYPE'] = "REFUND"
-              .reduce(function(res, elv, elk) {
-                var that = this;
-
-                var acceptedFields = [
-                  'AMT', 'CURRENCYCODE', 'EMAIL', 'FEEAMT',
-                  'NAME', 'NETAMT', 'STATUS', 'TIMESTAMP',
-                  'TIMEZONE', 'TRANSACTIONID', 'TYPE'];
-
-                _.each(acceptedFields, function(fieldName) {
-                  var statusMap = {
-                    'Pending':            'warning',
-                    'Completed':          'success',
-                    'Refunded':           'important',
-                    'Partially Refunded': 'important',
-                    'Denied':             'important',
-                    'Reversed':           'inverse'
-                  };
-
-                  var matcher     = new RegExp("^(" + fieldName + ")([0-9]+)"),
-                      matchResult = elk.match(matcher),
-                      fieldValue;
-
-                  if (matchResult !== null) {
-                    fieldValue = decodeURIComponent(elv);
-
-                    if (fieldName == 'TIMESTAMP') {
-                      fieldValue = that.formatDatetime(fieldValue);
-                    }
-
-                    res[matchResult[2]] = res[matchResult[2]] || {};
-
-                    if (fieldName == 'STATUS' && _.has(statusMap, fieldValue)) {
-                      res[matchResult[2]].STATUS_CLASSNAME = 'label-' + statusMap[fieldValue];
-                    }
-
-                    res[matchResult[2]][matchResult[1]] = fieldValue;
-                  }
-                });
-                return res;}, [], this)
-
-              // end of chain!
-              .value();
-    },
-
 
     parsePaypalPayload: function(str) {
       var payload = str.split('&');
