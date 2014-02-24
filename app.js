@@ -5,45 +5,23 @@
     listing: {},
     detail: {}
   };
-  
+
   return {
-    
-    generateApiRequest: function(payload) {
-      //var host = this.setting('paypal_sandbox') ? "api-3t.sandbox.paypal.com" : "api-3t.paypal.com";
-      var host = "api-3t.sandbox.paypal.com";
-      //var host = "api-3t.paypal.com";
 
-      var request = {
-        url:  'https://' + host + '/nvp' ,
-        type: 'POST'
-//        secure: true
-      };
-      
-      var data = {
-
-        'VERSION': '100',
-        "SIGNATURE": "AFcWxV21C7fd0v3bYYYRCpSSRl31AE3zsxym77ysOuXXEZYRlyc4GXxU",
-        "PWD": "1392690824",
-        "USER": "zd-business_api1.isaacsu.com",
-//        'USER': '{{setting.paypal_api_username}}',
-//        'PWD': '{{setting.paypal_api_password}}',
-//        'SIGNATURE': '{{setting.paypal_api_signature}}'
-      };
-          
-      request.data = _.extend(data, payload);
-      return request;
-    },
-    
     events: {
-      'app.activated':'onActivated',
-      'fetchPaypalTransactionsByEmail.done': 'onDoneFetchPaypalTransactionsByEmail',
-      'fetchPaypalTransactionById.done': 'saveAndRenderDetail',
+      'app.activated': 'onActivated',
+
+      'fetchTransactionsByEmail.done': 'onDoneFetchTransactionsByEmail',
+      'fetchTransactionById.done': 'onDoneFetchTransactionById',
+
       'click .transaction-detail': 'onClickTransactionDetail',
-      'click .back-to-transactions': 'onClickBackToTransactions'
+      'click .back-to-transactions': 'onClickBackToTransactions',
+
+      'submit .zendesk-paypal-search-form': 'onSubmitSearch'
     },
 
     requests: {
-      fetchPaypalTransactionsByEmail: function(email) {
+      fetchTransactionsByEmail: function(email) {
         return this.generateApiRequest({
           'METHOD': 'TransactionSearch',
           'EMAIL': email,
@@ -51,7 +29,7 @@
         });
       },
 
-      fetchPaypalTransactionById: function(id) {
+      fetchTransactionById: function(id) {
         return this.generateApiRequest({
           'METHOD': 'GetTransactionDetails',
           'TRANSACTIONID': id
@@ -59,13 +37,37 @@
       }
     },
 
+    generateApiRequest: function(payload) {
+      var host = this.setting('paypal_sandbox') ? "api-3t.sandbox.paypal.com" : "api-3t.paypal.com";
+
+      var request = {
+        url: helpers.fmt('https://%@/nvp', host),
+        secure: true,
+        type: 'POST'
+      };
+
+      var data = {
+        'VERSION': '100',
+        'USER': '{{setting.paypal_api_username}}',
+        'PWD': '{{setting.paypal_api_password}}',
+        'SIGNATURE': '{{setting.paypal_api_signature}}'
+      };
+
+      request.data = _.extend(data, payload);
+
+      return request;
+    },
+
+
     onActivated: function(ev) {
       var email = this.ticket().requester().email();
       STORE.email = email;
 
+      this.$('input.zendesk-paypal-search-email').val(email);
+
       if (_.isUndefined(STORE.listing[email])) {
         this.switchTo('loading', {email: email});
-        this.ajax('fetchPaypalTransactionsByEmail', email);
+        this.ajax('fetchTransactionsByEmail', email);
       }
       else {
         this.renderListing(STORE.listing[email].list);
@@ -77,7 +79,7 @@
       if (_.isUndefined(STORE.detail[transactionId])) {
         console.log('ajaxing');
         this.$('.detail-loading').show();
-        this.ajax('fetchPaypalTransactionById', transactionId);        
+        this.ajax('fetchTransactionById', transactionId);
       }
       else {
         console.log('cache hit');
@@ -89,8 +91,7 @@
       this.renderListing(STORE.listing[STORE.email].list);
     },
 
-
-    onDoneFetchPaypalTransactionsByEmail: function(data) {
+    onDoneFetchTransactionsByEmail: function(data) {
       var payload = this.parsePaypalPayload(data);
 
       switch (payload.ACK) {
@@ -102,7 +103,7 @@
           this.switchTo('no_results', {email: STORE.email});
         }
         break;
-        
+
       case 'SuccessWithWarning':
         break;
 
@@ -117,22 +118,30 @@
       }
     },
 
-
-    handleFailure: function(payload) {
-      if(_.some(payload.list, function(el) { return el.ERRORCODE == "103601"; })) {
-        this.switchTo('no_results', {email: STORE.email});
-      }
-      else {
-        this.switchTo('error', payload);
+    onDoneFetchTransactionById: function(data) {
+      var payload = this.parsePaypalPayload(data);
+      console.log(payload);
+      switch (payload.ACK) {
+      case 'Success':
+        this.saveAndRenderDetail(payload);
+        break;
+      default:
+        this.handleFailure(payload);
       }
     },
 
-    onDoneFetchPaypalTransactionById: function(data) {
-      // parse data
-      // if ACK==Success
-      saveAndRenderDetail(data);
-      // else
-      // handle error
+    onSubmitSearch: function(ev) {
+      ev.preventDefault();
+      ev.stopPropagation();
+
+      var email = this.$('input.zendesk-paypal-search-email').first().val();
+
+      if (email !== "") {
+        STORE.email = email;
+        this.switchTo('loading', {email: email});
+        this.ajax('fetchTransactionsByEmail', email);
+      }
+      return false;
     },
 
     saveAndRenderListing: function(payload) {
@@ -140,13 +149,21 @@
       this.renderListing(payload.list);
     },
 
-    saveAndRenderDetail: function(data) {
-      var transaction = this.parseDetail(data);
-      STORE.detail[transaction.TRANSACTIONID] = transaction;
+    saveAndRenderDetail: function(payload) {
+      STORE.detail[payload.TRANSACTIONID] = payload;
       this.$('.detail-loading').hide();
-      this.renderDetail(transaction);
+      this.renderDetail(payload);
     },
-    
+
+    handleFailure: function(payload) {
+      if(_.some(payload.list, function(el) { return el.ERRORCODE == "10360"; })) {
+        this.switchTo('no_results', {email: STORE.email});
+      }
+      else {
+        this.switchTo('error', payload);
+      }
+    },
+
     renderListing: function(listing) {
       this.switchTo('transaction_list', {
         transactions: listing
@@ -159,9 +176,10 @@
 
     parsePaypalPayload: function(str) {
       var payload = str.split('&');
+
       return _.chain(payload)
 
-              .filter(function(el) { return el !== ''})
+              .filter(function(el) { return el !== '';})
 
               // transform "L_TYPE0=REFUND" into arr['L_TYPE0'] = "REFUND"
               .reduce(function(res, el) {
@@ -169,7 +187,7 @@
                 res[keyValue[0]] = decodeURIComponent(keyValue[1]);
                 return res;
               }, {})
-              
+
               // transform arr['TYPE0'] = "REFUND" into arr[0]['TYPE'] = "REFUND"
               .reduce(function(res, elv, elk) {
                 var that = this;
@@ -178,7 +196,7 @@
                 if (elk.substr(0,2) !== "L_" && elk !== '') {
                   res[elk] = elv;
                 }
-                
+
                 // else if key starts with "L_" then treat as list entry
                 else {
                   res.list = res.list || [];
@@ -196,10 +214,10 @@
                     'Denied':             'important',
                     'Reversed':           'inverse'
                   };
-                  
+
                   fieldValue = elv;
 
-                  if (fieldName == 'TIMESTAMP') {
+                  if (_.contains(['TIMESTAMP', 'ORDERTIME'], fieldName)) {
                     fieldValue = that.formatDatetime(fieldValue);
                   }
 
@@ -213,78 +231,21 @@
                 }
 
                 return res;
-                
-                //var acceptedFields = [
-                //  'AMT', 'CURRENCYCODE', 'EMAIL', 'FEEAMT',
-                //  'NAME', 'NETAMT', 'STATUS', 'TIMESTAMP',
-                //  'TIMEZONE', 'TRANSACTIONID', 'TYPE'];
-                // 
-                //_.each(acceptedFields, function(fieldName) {
-                //  var statusMap = {
-                //    'Pending':            'warning',
-                //    'Completed':          'success',
-                //    'Refunded':           'important',
-                //    'Partially Refunded': 'important',
-                //    'Denied':             'important',
-                //    'Reversed':           'inverse'
-                //  };
-                // 
-                //  var matcher     = new RegExp("^(" + fieldName + ")([0-9]+)"),
-                //      matchResult = elk.match(matcher),
-                //      fieldValue;
-                // 
-                //  if (matchResult !== null) {
-                //    fieldValue = decodeURIComponent(elv);
-                // 
-                //    if (fieldName == 'TIMESTAMP') {
-                //      fieldValue = that.formatDatetime(fieldValue);
-                //    }
-                // 
-                //    res[matchResult[2]] = res[matchResult[2]] || {};
-                // 
-                //    if (fieldName == 'STATUS' && _.has(statusMap, fieldValue)) {
-                //      res[matchResult[2]].STATUS_CLASSNAME = 'label-' + statusMap[fieldValue];
-                //    }
-                // 
-                //    res[matchResult[2]][matchResult[1]] = fieldValue;
-                //  }
-                //});
-                return res;}, {}, this)
-
-        .value();
-
-
-    },
-
-    parseDetail: function(str) {
-      var detail = str.split('&');
-      return _.chain(detail)
-                           // transform "TYPE0=REFUND" into arr['TYPE0'] = "REFUND"
-              .reduce(function(res, el) {
-                var keyValue = el.split('=');
-                var fieldValue = decodeURIComponent(keyValue[1]);
-
-                if (keyValue[0] == 'TIMESTAMP' || keyValue[0] == 'ORDERTIME') {
-                  fieldValue = this.formatDatetime(fieldValue);
-                }
-
-                res[keyValue[0]] = fieldValue;
-                return res;
               }, {}, this)
 
-             .value();
+              .value();
     },
 
     formatDatetime: function(str) {
       // would be really nice if we could use moment() instead
-      var M = ["Jan", "Feb", "Mar", "Apr", 
-               "May", "Jun", "Jul", "Aug", 
+      var M = ["Jan", "Feb", "Mar", "Apr",
+               "May", "Jun", "Jul", "Aug",
                "Sep", "Oct", "Nov", "Dec"];
 
       var date = new Date(str);
       // e.g. 22 Feb, 1984
-      return date.getDate().toString() + " " + 
-             M[date.getMonth()] + ", " + 
+      return date.getDate().toString() + " " +
+             M[date.getMonth()] + ", " +
              date.getFullYear().toString();
     }
 

@@ -2,11 +2,10 @@
   <span class="logo"/>
   <h3>{{setting "name"}}</h3>
 </header>
-<ul class="nav nav-pills" style='display:none'>
-  <li class="account"><a>{{t "layout.account"}}</a></li>
-  <li class="user"><a>{{t "layout.user"}}</a></li>
-  <li class="ticket"><a>{{t "layout.ticket"}}</a></li>
-</ul>
+<form class='zendesk-paypal-search-form' style='text-align:center'>
+  <input class='zendesk-paypal-search-email' placeholder="email" type="text" />
+  <input type="submit" class="btn" value='Search' />
+</form>
 
 <section data-main />
 <footer style='display:none'>

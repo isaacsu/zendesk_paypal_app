@@ -41,7 +41,7 @@
 </p>
 
 
-<!--
+{{!--
 ACK: "Success"
 ADDRESSOWNER: "PayPal"
 ADDRESSSTATUS: "Confirmed"
@@ -79,4 +79,4 @@ TIMESTAMP: "2014-02-20T00:18:44Z"
 TRANSACTIONID: "1HE88866CX024940H"
 TRANSACTIONTYPE: "sendmoney"
 VERSION: "100"
--->
+--}}
