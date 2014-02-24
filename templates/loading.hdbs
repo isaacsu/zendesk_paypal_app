@@ -1,0 +1,5 @@
+<p style='text-align:center'>
+  Loading transactions for <br />
+  <strong>{{ email }}</strong> <br />
+  {{ spinner }}
+</p>

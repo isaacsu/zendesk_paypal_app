@@ -4,9 +4,42 @@
     "name": "Zendesk",
     "email": "support@zendesk.com"
   },
+
+  "parameters": [
+    {
+      "name": "paypal_api_username",
+      "type": "text",
+      "default": "zd-business_api1.isaacsu.com",
+      "secure": true,
+      "required": true
+    },
+    {
+      "name": "paypal_api_password",
+      "type": "text",
+      "default": "1392690824",
+      "secure": true,
+      "required": true
+
+    },
+    {
+      "name": "paypal_api_signature",
+      "type": "text",
+      "default": "AFcWxV21C7fd0v3bYYYRCpSSRl31AE3zsxym77ysOuXXEZYRlyc4GXxU",
+      "secure": true,
+      "required": true
+
+    },
+    {
+      "name": "paypal_sandbox",
+      "type": "checkbox"
+    }
+  ],
+  
+  "domainWhitelist": ["api-3t.sandbox.paypal.com", "api-3t.paypal.com"],
+
   "defaultLocale": "en",
   "private": true,
   "location": "ticket_sidebar",
   "version": "1.0",
-  "frameworkVersion": "0.5"
+  "frameworkVersion": "1.0"
 }

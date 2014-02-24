@@ -8,6 +8,32 @@
     "name": {
       "value": "Buddha Machine",
       "title": "app name"
+    },
+    "parameters": {
+      "paypal_api_username": {
+        "label": {
+          "value": "Paypal Api Username",
+          "title": ""
+        }
+      },
+      "paypal_api_password": {
+        "label": {
+          "value": "Paypal Api Password",
+          "title": ""
+        } 
+      },
+      "paypal_api_signature": {
+        "label": {
+          "value": "Paypal Api Signature",
+          "title": ""
+        } 
+      },
+      "paypal_sandbox": {
+        "label": {
+          "value": "Use Paypal Sandbox Endpoint",
+          "title": ""
+        } 
+      }
     }
   },
 

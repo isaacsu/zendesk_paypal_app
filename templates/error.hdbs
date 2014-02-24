@@ -1,0 +1,7 @@
+<h1>So Errors</h1>
+{{#each list}}
+<p>Error Code: {{this.ERRORCODE}}</p>
+<p>Long Message: <br />{{this.LONGMESSAGE}}</p>
+<p>Short Message: <br />{{this.SHORTMESSAGE}}</p>
+<p>----</p>
+{{/each}}
