@@ -191,10 +191,15 @@
               // transform arr['TYPE0'] = "REFUND" into arr[0]['TYPE'] = "REFUND"
               .reduce(function(res, elv, elk) {
                 var that = this;
+                var fieldValue;
 
                 // if key doesn't start with "L_" then straight copy
                 if (elk.substr(0,2) !== "L_" && elk !== '') {
-                  res[elk] = elv;
+                  fieldValue = elv;
+                  if (_.contains(['TIMESTAMP', 'ORDERTIME'], elk)) {
+                    fieldValue = that.formatDatetime(fieldValue);
+                  }
+                  res[elk] = fieldValue;
                 }
 
                 // else if key starts with "L_" then treat as list entry
@@ -203,8 +208,7 @@
                   var matcher = new RegExp("L_([^0-9]+)([0-9]+)"),
                       matchResult = elk.match(matcher),
                       fieldName = matchResult[1],
-                      fieldIndex = matchResult[2],
-                      fieldValue;
+                      fieldIndex = matchResult[2];
 
                   var statusMap = {
                     'Pending':            'warning',
