@@ -9,14 +9,14 @@
     {
       "name": "paypal_api_username",
       "type": "text",
-      "default": "zd-business_api1.isaacsu.com",
+      "default": "",
       "secure": true,
       "required": true
     },
     {
       "name": "paypal_api_password",
       "type": "text",
-      "default": "1392690824",
+      "default": "",
       "secure": true,
       "required": true
 
@@ -24,7 +24,7 @@
     {
       "name": "paypal_api_signature",
       "type": "text",
-      "default": "AFcWxV21C7fd0v3bYYYRCpSSRl31AE3zsxym77ysOuXXEZYRlyc4GXxU",
+      "default": "",
       "secure": true,
       "required": true
 
