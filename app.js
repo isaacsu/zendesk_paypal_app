@@ -12,9 +12,9 @@
       'app.activated': 'onActivated',
 
       'fetchTransactionsByEmail.done': 'onDoneFetchTransactionsByEmail',
-      'fetchTransactionById.done': 'onDoneFetchTransactionById',
+      'fetchTransactionById.done':     'onDoneFetchTransactionById',
 
-      'click .transaction-detail': 'onClickTransactionDetail',
+      'click .transaction-detail':   'onClickTransactionDetail',
       'click .back-to-transactions': 'onClickBackToTransactions',
 
       'submit .zendesk-paypal-search-form': 'onSubmitSearch'
