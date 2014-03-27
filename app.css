@@ -1,20 +1,20 @@
 .zendesk-paypal-transactions {
-    margin:0;
-}
+  margin: 0;
 
-.zendesk-paypal-transactions li {
-    margin-bottom:2px;
-}
+  li {
+    margin-bottom: 2px;
+  }
 
-.zendesk-paypal-transactions a {
-    display:block;
-    color:inherit;
-    padding:10px;
-}
+  a {
+    display: block;
+    color: inherit;
+    padding: 10px;
+  }
 
-.zendesk-paypal-transactions a:hover {
-    background:#EDF2E3;
-    border:1px solid #E0F0C3;
-    border-radius:5px;
-    padding: 9px;
+  a:hover {
+    background: #EDF2E3;
+    border: 1px solid #E0F0C3;
+    border-radius: 5px;
+    padding:  9px;
+  }
 }
