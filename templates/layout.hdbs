@@ -4,8 +4,8 @@
 </header>
 
 <form class='zendesk-paypal-search-form'>
-  <input class='zendesk-paypal-search-email' placeholder="email" type="text" />
-  <input type="submit" class="btn" value='Search' />
+  <input class="zendesk-paypal-search-email" placeholder="{{t "layout.search_form.email"}}" type="text" />
+  <input type="submit" class="btn" value="{{t "layout.search_form.search"}}" />
 </form>
 
 <section data-main />

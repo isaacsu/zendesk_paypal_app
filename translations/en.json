@@ -1,99 +1,149 @@
 {
   "app": {
-    "package": "app_name",
+    "package": "zendesk_paypal_app",
+
     "description": {
-      "value": "Play the famous zen tunes in your help desk.",
+      "value": "View Paypal transactions",
       "title": "app description"
     },
+
     "name": {
-      "value": "Buddha Machine",
+      "value": "Paypal App",
       "title": "app name"
     },
+
     "parameters": {
       "paypal_api_username": {
         "label": {
           "value": "Paypal Api Username",
-          "title": ""
+          "title": "paypal api username"
         }
       },
       "paypal_api_password": {
         "label": {
           "value": "Paypal Api Password",
-          "title": ""
+          "title": "paypal api password"
         } 
       },
       "paypal_api_signature": {
         "label": {
           "value": "Paypal Api Signature",
-          "title": ""
+          "title": "paypal api signature"
         } 
       },
       "paypal_sandbox": {
         "label": {
           "value": "Use Paypal Sandbox Endpoint",
-          "title": ""
+          "title": "use paypal sandbox endpoint"
         } 
       }
     }
   },
 
   "loading": {
-    "value": "Welcome to this Sample App",
-    "title": "loading placeholder"
-  },
-
-  "fetch": {
-    "done": {
-      "value": "Good",
-      "title": "fetch success"
-    },
-    "fail": {
-      "value": "failed to fecth information from the server",
-      "title": "fetch failure"
+    "loading_for": {
+      "value": "Loading transactions for",
+      "title": "loading transactions message"
     }
   },
 
-  "id": {
-    "value": "ID",
-    "title": "user id"
-  },
-
-  "email": {
-    "value": "Email",
-    "title": "user email"
-  },
-
-  "name": {
-    "value": "Name",
-    "title": "user name"
-  },
-
-  "role": {
-    "value": "Role",
-    "title": "user role"
-  },
-
-  "groups": {
-    "value": "Groups",
-    "title": "user groups"
-  },
-
   "layout": {
-    "subheading": {
-      "value": "This app demos some APIs allowing developers to interact with tickets in a Zendesk",
-      "title": "incident"
+    "search_form": {
+      "email" : {
+        "value": "Email",
+        "title": "Label for email search field"
+      },
+      "search" : {
+        "value": "Search",
+        "title": "Label for search button"
+      }
+    }
+  },
+
+  "transaction_show": {
+    "title": {
+      "value": "Transaction",
+      "title": "title for transaction"
     },
-    "user": {
-      "value": "User",
-      "title": "incident"
+
+    "payer": {
+      "title": {
+        "value": "Payer",
+        "title": "title for payer section"
+      },
+
+      "name": {
+        "value": "Name",
+        "title": "payer name"
+      },
+      "email": {
+        "value": "Email",
+        "title": "payer email"
+      },
+      "status": {
+        "value": "Status",
+        "title": "payer status"
+      },
+      "protection_eligibility": {
+        "value": "Protection Eligibility",
+        "title": "protection eligibility"
+      }
     },
-    "ticket": {
-      "value": "Ticket",
-      "title": "incident"
+
+    "order_time": {
+      "value": "Order Time",
+      "title": "title for Order Time"
     },
-    "account": {
-      "value": "Current Account",
-      "title": "incident"
+    "ship_to": {
+      "value": "Ship To",
+      "title": "title for Ship To"
+    },
+    "amount": {
+      "value": "Amount",
+      "title": "title for Amount"
+    },
+    "payment": {
+      "title": { 
+        "value": "Payment",
+        "title": "title for Payment"
+      },
+      "status": {
+        "value": "Status",
+        "title": "payment status"
+      }
+    },
+    "transactions_link": {
+      "value": "Transactions",
+      "title": "back to transactions link"
+    }
+  },
+
+  "no_results": {
+    "no_results_found": {
+      "value": "No transactions found for",
+      "title": "Message for no results"
+    }
+  },
+
+  "error": {
+    "title": {
+      "value": "Error",
+      "title": "Title for error page"
+    },
+
+    "error_code": {
+      "value": "Error Code",
+      "title": "Label for Error Code"
+    },
+
+    "long_message": {
+      "value": "Long Message",
+      "title": "Label for Long Error Message"
+    },
+
+    "short_message": {
+      "value": "Short Message",
+      "title": "Label for Short Error Message"
     }
   }
 }
