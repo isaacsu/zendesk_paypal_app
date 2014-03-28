@@ -77,12 +77,10 @@
     onClickTransactionDetail: function(ev) {
       var transactionId = this.$(ev.currentTarget).data('transaction-id');
       if (_.isUndefined(STORE.detail[transactionId])) {
-        console.log('ajaxing');
         this.$('.detail-loading').show();
         this.ajax('fetchTransactionById', transactionId);
       }
       else {
-        console.log('cache hit');
         this.renderDetail(STORE.detail[transactionId]);
       }
     },
@@ -120,7 +118,6 @@
 
     onDoneFetchTransactionById: function(data) {
       var payload = this.parsePaypalPayload(data);
-      console.log(payload);
       switch (payload.ACK) {
       case 'Success':
         this.saveAndRenderDetail(payload);
@@ -241,7 +238,6 @@
     },
 
     formatDatetime: function(str) {
-      // would be really nice if we could use moment() instead
       var M = ["Jan", "Feb", "Mar", "Apr",
                "May", "Jun", "Jul", "Aug",
                "Sep", "Oct", "Nov", "Dec"];
