@@ -1,8 +1,9 @@
 <header>
-  <span class="logo"/>
+  <span class="logo" />
   <h3>{{setting "name"}}</h3>
 </header>
-<form class='zendesk-paypal-search-form' style='text-align:center'>
+
+<form class='zendesk-paypal-search-form'>
   <input class='zendesk-paypal-search-email' placeholder="email" type="text" />
   <input type="submit" class="btn" value='Search' />
 </form>

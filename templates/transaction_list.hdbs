@@ -11,6 +11,4 @@
   {{/each}}
 </ul>
 
-<div class='detail-loading' style='display:none;text-align:center'>
-  {{ spinner }}
-</div>
+<div class='detail-loading'>{{ spinner }}</div>

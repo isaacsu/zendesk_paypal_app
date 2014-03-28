@@ -1,4 +1,4 @@
-<p style='text-align:center'>
+<p class='loading-for'>
   Loading transactions for <br />
   <strong>{{ email }}</strong> <br />
   {{ spinner }}
