@@ -106,9 +106,6 @@
         break;
 
       case 'Failure':
-        this.handleFailure(payload);
-        break;
-
       case 'FailureWithWarning':
         this.handleFailure(payload);
         break;
