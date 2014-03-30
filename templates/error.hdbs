@@ -1,0 +1,7 @@
+<h1>{{t "error.title"}}</h1>
+{{#each list}}
+<p>{{t "error.error_code"}}: {{this.ERRORCODE}}</p>
+<p>{{t "error.long_message"}}: <br />{{this.LONGMESSAGE}}</p>
+<p>{{t "error.short_message"}}: <br />{{this.SHORTMESSAGE}}</p>
+<p>----</p>
+{{/each}}

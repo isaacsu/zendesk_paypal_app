@@ -1,0 +1,5 @@
+<p class='loading-for'>
+  {{ t "loading.loading_for" }}<br />
+  <strong>{{ email }}</strong> <br />
+  {{ spinner }}
+</p>

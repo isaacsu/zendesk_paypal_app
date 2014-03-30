@@ -1,0 +1,35 @@
+.zendesk-paypal-transactions {
+  margin: 0;
+
+  li {
+    margin-bottom: 2px;
+  }
+
+  a {
+    display: block;
+    color: inherit;
+    padding: 10px;
+  }
+
+  a:hover {
+    background: #EDF2E3;
+    border: 1px solid #E0F0C3;
+    border-radius: 5px;
+    padding:  9px;
+  }
+}
+
+p.loading-for,
+p.no-transactions-found {
+  text-align: center;
+}
+
+
+div.detail-loading {
+  display: none;
+  text-align: center;
+}
+
+form.zendesk-paypal-search-form {
+  text-align: center;
+}

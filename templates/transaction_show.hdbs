@@ -1,0 +1,41 @@
+<p>
+  <strong>{{t "transaction_show.title"}}</strong> <br />
+  {{ TIMESTAMP }} <br />
+  {{ TRANSACTIONID }}
+</p>
+
+<p>
+  <strong>{{t "transaction_show.payer.title"}}</strong><br />
+  {{t "transaction_show.payer.name"}}: {{ FIRSTNAME }} {{ LASTNAME }} <br />
+  {{t "transaction_show.payer.email"}}: {{ EMAIL }} <br />
+  {{t "transaction_show.payer.status"}}: {{ PAYERSTATUS }} <br />
+  {{t "transaction_show.payer.protection_eligibility"}}: {{ PROTECTIONELIGIBILITY }}, {{ PROTECTIONELIGIBILITYTYPE }} <br />
+</p>
+
+<p>
+  <strong>{{t "transaction_show.order_time"}}</strong><br />
+  {{ ORDERTIME }}
+</p>
+
+<p>
+  <strong>{{t "transaction_show.ship_to"}}</strong> <br />
+  {{ SHIPTONAME }} <br />
+  {{ SHIPTOSTREET }} <br />
+  {{ SHIPTOCITY }}, {{ SHIPTOSTATE }} {{ SHIPTOZIP }} <br />
+  {{ SHIPTOCOUNTRYNAME }} <br />
+</p>
+
+<p>
+  <strong>{{t "transaction_show.amount"}}</strong> <br />
+  {{ CURRENCYCODE }} {{ AMT }} <br />
+</p>
+
+<p>
+  <strong>{{t "transaction_show.payment.title"}}</strong> <br />
+  {{t "transaction_show.payment.status"}}: {{ PAYMENTSTATUS }}
+</p>
+
+<p>
+  <br />
+  <a class='btn btn-small back-to-transactions' href='javascript:;'><i class='icon-arrow-left'></i> {{t "transaction_show.transactions_link"}}</a>
+</p>

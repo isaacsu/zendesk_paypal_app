@@ -1,0 +1,14 @@
+<ul class='zendesk-paypal-transactions'>
+  {{#each transactions}}
+    <li>
+      <a class='transaction-detail' href='javascript:;' data-transaction-id='{{ this.TRANSACTIONID }}'>
+      <small>{{ this.TIMESTAMP }}</small><br />
+      {{ this.TRANSACTIONID }} <span class='label {{ this.STATUS_CLASSNAME }}'>{{ this.STATUS }}</span> <br />
+      {{ this.TYPE }} <strong>{{ this.CURRENCYCODE }}{{ this.AMT }}</strong>
+
+      </a>
+    </li>
+  {{/each}}
+</ul>
+
+<div class='detail-loading'>{{ spinner }}</div>
